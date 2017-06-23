@@ -1,0 +1,39 @@
+{
+  "name": "phonebooth-api",
+  "description": "",
+  "scripts": {
+  },
+  "env": {
+    "CELERY_BROKER_URL": {
+      "required": true
+    },
+    "CELERY_RESULT_BACKEND": {
+      "required": true
+    },
+    "MONGO_DBNM": {
+      "required": true
+    },
+    "MONGO_HOST": {
+      "required": true
+    },
+    "MONGO_PASS": {
+      "required": true
+    },
+    "MONGO_PORT": {
+      "required": true
+    },
+    "MONGO_USER": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
