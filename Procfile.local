@@ -1,0 +1,2 @@
+web: python pbapi
+worker: celery worker -A pbapi.core.celery --loglevel=info
