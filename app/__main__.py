@@ -3,8 +3,9 @@ import sys
 
 sys.path.append(os.getcwd())
 
-from pbapi.core import app
+from app.factory import create_app
+from app import config
 
 if __name__ == "__main__":
+    app = create_app(config=config)
     app.run(debug=True)
-

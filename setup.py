@@ -12,11 +12,11 @@ with open('LICENSE') as f:
 setup(
     name='phonebooth api',
     version='0.0.1',
-    description='Simple but effective REST API for PhoneBooth notification system.',
+    description='Simple REST API for PhoneBooth notification system.',
     long_description=readme,
     author='Carlos Perez',
     author_email='carlos@searchkings.ca',
-    url='https://git.heroku.com/phonebooth-api.git',
+    url='https://github.com/codelicker/phonebooth-api.git',
     license=license,
     packages=find_packages(exclude=('tests', 'docs'))
 )
