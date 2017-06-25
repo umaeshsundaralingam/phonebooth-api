@@ -1,5 +1,5 @@
 import os
-from pbapi import resources
+from app import resources
 from dotenv import load_dotenv, find_dotenv
 
 try:
@@ -39,3 +39,4 @@ settings = {
         'calls': resources.calls
     }
 }
+

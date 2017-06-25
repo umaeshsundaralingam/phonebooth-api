@@ -1,4 +1,4 @@
-from pbapi import schemas
+from app import schemas
 
 # Resource definitions
 users = {
@@ -19,7 +19,8 @@ accounts = {
     'allowed_roles': ['enduser', 'admin', 'superuser'],
 
     # Add the schema definition for this endpoint.
-    'schema': schemas.account
+    'schema': schemas.account,
+    'allow_unknown': True
 }
 
 calls = {

@@ -1,4 +1,4 @@
-# Schemas
+# Cerberus schemas for database modeling
 user = {
     'email': {
         'type': 'string',

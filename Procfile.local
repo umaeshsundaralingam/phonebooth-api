@@ -1,2 +1,2 @@
-web: python pbapi
-worker: celery worker -A pbapi.core.celery --loglevel=info
+web: python app
+worker: celery worker -A run.celery --loglevel=info
