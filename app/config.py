@@ -1,6 +1,5 @@
 import os
 from app import resources
-from dotenv import load_dotenv, find_dotenv
 
 try:
     # Heroku sets a PORT evironment variable that we can look for.
@@ -10,6 +9,8 @@ try:
         pass
 except KeyError:
     # or if we are developing locally and need the debugger, then load the .env manually
+    # in case we are using foreman directly (as oppossed to heroku)
+    from dotenv import load_dotenv, find_dotenv
     load_dotenv(find_dotenv('.env'))
 
 
