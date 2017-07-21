@@ -16,6 +16,8 @@ except KeyError:
 
 settings = {
     # Global variables
+    'X_DOMAINS': os.environ.get('X_DOMAINS').split(','),
+
     'MONGO_HOST': os.environ.get('MONGO_HOST'),
     'MONGO_PORT': os.environ.get('MONGO_PORT'),
     'MONGO_USERNAME': os.environ.get('MONGO_USER'),
