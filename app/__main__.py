@@ -8,4 +8,4 @@ from app import config
 
 if __name__ == "__main__":
     app = create_app(config=config)
-    app.run(debug=True)
+    app.run(debug=config.settings['DEBUG'])
