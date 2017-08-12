@@ -35,3 +35,10 @@ settings['DOMAIN'] = {
     'accounts': resources.accounts,
     'calls': resources.calls
 }
+
+# Enable reads, inserts, and deletions of resources/collections
+settings['RESOURCE_METHODS'] = ['GET', 'POST', 'DELETE']
+
+# Enable reads, edits, and deletetions of individual items
+settings['ITEM_METHODS'] = ['GET', 'PATCH', 'DELETE']
+
