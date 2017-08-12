@@ -30,9 +30,7 @@ def create_app(config=None, environment=None):
         """
         def __init__(self):
             super(BearerAuth, self).__init__()
-            self.redis = StrictRedis(host=config.settings['REDIS_HOST'],
-                                     port=config.settings['REDIS_PORT'],
-                                     password=config.settings['REDIS_PASSWORD'])
+            self.redis = StrictRedis.from_url(config.settings['SENTINEL_REDIS_URL'])
 
         def check_auth(self, token, allowed_roles, resource, method):
             """ Check if API request is authorized.
