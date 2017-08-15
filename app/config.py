@@ -1,10 +1,10 @@
 import os
 from app import resources
 
+# Heroku sets a PORT evironment variable that we can look for.
+# This way, we know if we are on a Heroku ``production`` or ``staging``
+# environment, and let it use the set environment variables
 try:
-    # Heroku sets a PORT evironment variable that we can look for.
-    # This way, we know if we are on a Heroku ``production`` or ``staging``
-    # environment, and let it use the set environment variables
     if os.environ['PORT']:
         pass
 except KeyError:
