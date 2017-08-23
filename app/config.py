@@ -8,7 +8,8 @@ try:
     if os.environ['PORT']:
         pass
 except KeyError:
-    # or if we are developing locally, then load the .env
+    # or if we are developing locally and using foreman instead of heroku local,
+    # then load the .env
     from dotenv import load_dotenv, find_dotenv
     load_dotenv(find_dotenv('.env'))
 
