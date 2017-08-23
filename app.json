@@ -1,29 +1,48 @@
 {
   "name": "phonebooth-api",
-  "description": "",
+  "description": "Simple REST API for PhoneBooth notification system.",
   "scripts": {
   },
   "env": {
-    "CELERY_BROKER_URL": {
-      "required": true
+    "APP_DEBUG": {
+      "description": "Flask/Eve debug flag.",
+      "value": false
     },
-    "CELERY_RESULT_BACKEND": {
-      "required": true
+    "APP_X_DOMAINS": {
+      "description": "Comma-separated list of allowed domains to perform CORS requests.",
+      "value": ""
     },
-    "MONGO_DBNM": {
-      "required": true
+    "APP_MONGO_URI": {
+      "description": "MongoDB URI connection scheme. This is for the resources database.",
+      "value": ""
     },
-    "MONGO_HOST": {
-      "required": true
+    "APP_SENTINEL_MONGO_URI": {
+      "description": "MongoDB URI connection scheme to use for Sentinel.",
+      "value": ""
     },
-    "MONGO_PASS": {
-      "required": true
+    "APP_SENTINEL_MANAGEMENT_USERNAME": {
+      "description": "Username for Sentinel's management interface.",
+      "value": ""
     },
-    "MONGO_PORT": {
-      "required": true
+    "APP_SENTINEL_MANAGEMENT_PASSWORD": {
+      "description": "Password for Sentinel's management interface.",
+      "value": ""
     },
-    "MONGO_USER": {
-      "required": true
+    "APP_OAUTH2_PROVIDER_TOKEN_EXPIRES_IN": {
+      "description": "Bearer token expiration time.",
+      "value": ""
+    },
+    "APP_SENTINEL_REDIS_URL": {
+      "description": "Redis URI connection scheme for Sentinel's cache.",
+      "value": ""
+    },
+    "APP_BROKER_URL": {
+      "description": "Message broker URI connection scheme for Celery tasks.",
+      "value": ""
+    },
+    "APP_RESULT_BACKEND": {
+      "description": "The backend used to store task results (if any).",
+      "value": ""
     }
   },
   "formation": {
