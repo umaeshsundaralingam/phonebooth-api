@@ -1,6 +1,6 @@
 # Cerberus schemas for database modeling
 user = {
-    'email': {
+    'username': {
         'type': 'string',
         'regex': "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
         'required': True,
@@ -14,13 +14,16 @@ user = {
         'type': 'string',
         'required': True
     },
-    'password': {
-        'type': 'string'
-    },
     'roles': {
         'type': 'list',
         'required': True,
-        'allowed': ['api', 'enduser', 'admin', 'superuser']
+        'allowed': ['api', 'enduser', 'manager', 'admin']
+    },
+    # We have to keep the password field as well as the RolesAuth class for clients
+    # which only support basic authentication (a.k.a. CTM)
+    'password': {
+        'type': 'string',
+        'required': False
     }
 }
 
@@ -83,4 +86,3 @@ call = {
         'required': True
     }
 }
-

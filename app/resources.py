@@ -7,16 +7,16 @@ users = {
     'cache_control': '',
     'cache_expires': 0,
 
-    # Only allow superusers and admins.
-    'allowed_roles': ['admin', 'superuser'],
+    # Only allow managers and admins.
+    'allowed_roles': ['manager', 'admin'],
 
     # Finally, let's add the schema definition for this endpoint.
     'schema': schemas.user
 }
 
 accounts = {
-    # Only allow superusers and admins.
-    'allowed_roles': ['enduser', 'admin', 'superuser'],
+    # Only allow human users
+    'allowed_roles': ['enduser', 'manager', 'admin'],
 
     # Add the schema definition for this endpoint.
     'schema': schemas.account,
@@ -24,8 +24,7 @@ accounts = {
 }
 
 calls = {
-    'allowed_roles': ['external_api', 'enduser', 'admin', 'superuser'],
+    'allowed_roles': ['api', 'enduser', 'manager', 'admin'],
     'schema': schemas.call,
     'allow_unknown': True
 }
-
