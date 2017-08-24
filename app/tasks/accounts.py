@@ -15,13 +15,14 @@ def retrieve_new_accounts(self):
     # Query CTM and find out how many pages we are dealing with
     r = requests.get(ctm_url + '/accounts.json', params={'page': 1}, auth=ctm_auth)
 
-    # Get all of of CTM's accounts in an empty list
+    # Get a list of all CTM's accounts
     ctm_accounts = []
     for page in range(1, r.json()['total_pages'] + 1):
         ctm_accounts.extend(requests.get(ctm_url + '/accounts.json', params={'page': page}, auth=ctm_auth).json()['accounts'])
         del page
 
-    # Grab only the account ids in an empty list
+    # Grab only the account ids, as we will have to request each account's full
+    # profile information
     ctm_account_ids = []
     for account in ctm_accounts:
         ctm_account_ids.append(account['id'])
@@ -35,7 +36,14 @@ def retrieve_new_accounts(self):
         existing_account_ids.append(account['ctm_id'])
 
     # Compare the lists via list comprehension
-    filtered = [id for id in ctm_account_ids if id not in existing_account_ids]
+    filtered_ids = [id for id in ctm_account_ids if id not in existing_account_ids]
 
-    return filtered
+    # Query CTM for every missing account's profile
+    missing_ctm_accounts = []
+    for id in filtered_ids:
+        r = requests.get(ctm_url + '/accounts/' + id + '.json', auth=ctm_auth)
+        missing_ctm_accounts.append(r.json())
+        del id, r
 
+    # Finally, import the accounts
+    current_app.data.insert('accounts', missing_ctm_accounts)
