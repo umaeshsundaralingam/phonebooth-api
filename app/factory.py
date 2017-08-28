@@ -62,7 +62,7 @@ def create_app(config=None, environment=None):
         and ``account_id`` as ``ctm_id``, and ``ctm_account_id`` respectively,
         in case there is a need to reference it back in CTM.
         """
-        payload=request.json
+        payload = request.get_json()
         accounts = app.data.driver.db['accounts']
         lookup = {'ctm_id': payload['account_id']}
         account = accounts.find_one(lookup)
@@ -73,12 +73,25 @@ def create_app(config=None, environment=None):
         payload['account_id'] = account['_id']
 
 
+    def prepare_account_for_import_callback(request):
+        import dateutil.parser
+        payload = request.get_json()
+        payload['ctm_id'] = payload['id']
+        payload['originally_created'] = dateutil.parser.parse(payload['created'])
+        del payload['id'], payload['created']
+
+        for key in payload.items():
+            if "url" in key:
+                del payload[key]
+
+
     app = Eve(
         settings=config.settings,
         auth=BearerAuth
     )
     ResourceOwnerPasswordCredentials(app)
     app.on_pre_POST_calls += reference_call_to_account_callback
+    app.on_pre_POST_accounts += prepare_account_for_import_callback
     make_celery(app, celery)
 
     app.register_blueprint(views.account_tasks.task, url_prefix='/tasks')

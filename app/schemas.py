@@ -35,8 +35,8 @@ account = {
     'balance': {
         'type': 'dict'
     },
-    'created': {
-        'type': 'date',
+    'originally_created': {
+        'type': 'datetime',
         'required': True
     },
     'ctm_id': {
