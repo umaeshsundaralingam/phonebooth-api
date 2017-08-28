@@ -6,7 +6,7 @@
   "env": {
     "APP_DEBUG": {
       "description": "Flask/Eve debug flag.",
-      "value": false
+      "value": ""
     },
     "APP_X_DOMAINS": {
       "description": "Comma-separated list of allowed domains to perform CORS requests.",
