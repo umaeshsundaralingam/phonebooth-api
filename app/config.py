@@ -30,6 +30,14 @@ try:
 except KeyError:
     pass
 
+# Flask-Sentinel uses seconds as timedelta for the expiration time of tokens.
+# We need to convert the environment variable to an integer.
+try:
+    if settings['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN']:
+        settings['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN'] = int(settings['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN'])
+except KeyError:
+    pass
+
 # Resource availability
 settings['DOMAIN'] = {
     'users': resources.users,
