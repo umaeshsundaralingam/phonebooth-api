@@ -73,16 +73,16 @@ def create_app(config=None, environment=None):
         payload['account_id'] = account['_id']
 
 
-    def prepare_account_for_import_callback(request):
+    def prepare_documents_for_import_callback(documents):
         import dateutil.parser
-        payload = request.get_json()
-        payload['ctm_id'] = payload['id']
-        payload['ctm_created'] = dateutil.parser.parse(payload['created'])
-        del payload['id'], payload['created']
+        for document in documents:
+            document['ctm_id'] = document['id']
+            document['ctm_created'] = dateutil.parser.parse(document['created'])
+            del document['id'], document['created']
 
-        for key in payload.copy():
-            if "url" in key:
-                del payload[key]
+            for key in document.copy():
+                if "url" in key:
+                    del document[key]
 
 
     app = Eve(
@@ -91,7 +91,7 @@ def create_app(config=None, environment=None):
     )
     ResourceOwnerPasswordCredentials(app)
     app.on_pre_POST_calls += reference_call_to_account_callback
-    app.on_pre_POST_accounts += prepare_account_for_import_callback
+    app.on_insert_accounts += prepare_documents_for_import_callback
     make_celery(app, celery)
 
     app.register_blueprint(views.account_tasks.task, url_prefix='/tasks')

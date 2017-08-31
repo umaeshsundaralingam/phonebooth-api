@@ -35,13 +35,14 @@ account = {
     'balance': {
         'type': 'dict'
     },
-    'ctm_created': {
-        'type': 'datetime',
+    'created': {
+        'type': 'string',
         'required': True
     },
-    'ctm_id': {
+    'id': {
         'type': 'integer',
-        'required': True
+        'required': True,
+        'unique': True
     },
     'invoiced': {
         'type': 'boolean'
