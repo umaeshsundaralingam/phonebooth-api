@@ -77,10 +77,10 @@ def create_app(config=None, environment=None):
         import dateutil.parser
         payload = request.get_json()
         payload['ctm_id'] = payload['id']
-        payload['originally_created'] = dateutil.parser.parse(payload['created'])
+        payload['ctm_created'] = dateutil.parser.parse(payload['created'])
         del payload['id'], payload['created']
 
-        for key in payload.items():
+        for key in payload.copy():
             if "url" in key:
                 del payload[key]
 
