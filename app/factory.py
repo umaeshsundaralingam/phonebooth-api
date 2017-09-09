@@ -6,7 +6,7 @@ from flask_sentinel import ResourceOwnerPasswordCredentials, oauth
 from redis import StrictRedis
 from app import celery
 from app import config
-from app.utils.tasker import make_celery
+from app.utils.tasker import init_celery
 import views.account_tasks
 
 def create_app(config=None, environment=None):
@@ -77,9 +77,12 @@ def create_app(config=None, environment=None):
         settings=config.settings,
         auth=BearerAuth
     )
+    
     ResourceOwnerPasswordCredentials(app)
     app.on_pre_POST_calls += reference_call_to_account_callback
-    make_celery(app, celery)
+    
+    app.config.update(config.extra_settings)
+    init_celery(app, celery)
 
     app.register_blueprint(views.account_tasks.task, url_prefix='/tasks')
 

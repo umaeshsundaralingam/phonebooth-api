@@ -4,35 +4,35 @@
   "scripts": {
   },
   "env": {
-    "APP_DEBUG": {
+    "EVE_DEBUG": {
       "description": "Flask/Eve debug flag.",
       "value": ""
     },
-    "APP_X_DOMAINS": {
+    "EVE_X_DOMAINS": {
       "description": "Comma-separated list of allowed domains to perform CORS requests.",
       "value": ""
     },
-    "APP_MONGO_URI": {
+    "EVE_MONGO_URI": {
       "description": "MongoDB URI connection scheme. This is for the resources database.",
       "value": ""
     },
-    "APP_SENTINEL_MONGO_URI": {
+    "EVE_SENTINEL_MONGO_URI": {
       "description": "MongoDB URI connection scheme to use for Sentinel.",
       "value": ""
     },
-    "APP_SENTINEL_MANAGEMENT_USERNAME": {
+    "EVE_SENTINEL_MANAGEMENT_USERNAME": {
       "description": "Username for Sentinel's management interface.",
       "value": ""
     },
-    "APP_SENTINEL_MANAGEMENT_PASSWORD": {
+    "EVE_SENTINEL_MANAGEMENT_PASSWORD": {
       "description": "Password for Sentinel's management interface.",
       "value": ""
     },
-    "APP_OAUTH2_PROVIDER_TOKEN_EXPIRES_IN": {
+    "EVE_OAUTH2_PROVIDER_TOKEN_EXPIRES_IN": {
       "description": "Bearer token expiration time.",
       "value": ""
     },
-    "APP_SENTINEL_REDIS_URL": {
+    "EVE_SENTINEL_REDIS_URL": {
       "description": "Redis URI connection scheme for Sentinel's cache.",
       "value": ""
     },
@@ -42,6 +42,14 @@
     },
     "APP_RESULT_BACKEND": {
       "description": "The backend used to store task results (if any).",
+      "value": ""
+    },
+    "APP_CTM_USER": {
+      "description": "Call Tracking Metrics API key.",
+      "value": ""
+    },
+    "APP_CTM_PASS": {
+      "description": "Call Tracking Metrics API secret.",
       "value": ""
     }
   },

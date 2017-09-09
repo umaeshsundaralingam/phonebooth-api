@@ -1,7 +1,7 @@
 from app import celery
 from app import config
 from app.factory import create_app
-from app.utils.tasker import make_celery
+from app.utils.tasker import init_celery
 
 app = create_app(config=config)
-make_celery(app, celery)
+init_celery(app, celery)
