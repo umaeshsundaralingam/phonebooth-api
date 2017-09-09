@@ -39,7 +39,7 @@ def retrieve_new_accounts(self):
     # Query CTM for every missing account's profile
     missing_ctm_accounts = []
     for id in filtered_ids:
-        r = requests.get(ctm_url + '/accounts/' + id + '.json', auth=ctm_auth)
+        r = requests.get(ctm_url + '/accounts/' + str(id) + '.json', auth=ctm_auth)
         missing_ctm_accounts.append(r.json())
         del id, r
 
