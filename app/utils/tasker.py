@@ -1,4 +1,4 @@
-def make_celery(app, celery):
+def init_celery(app, celery):
     """
     This function creates a new Celery object, configures it with the broker from
     the application config, updates the rest of the Celery config from the Flask

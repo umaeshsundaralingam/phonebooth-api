@@ -1,16 +1,14 @@
 from app import celery
-from app import config
 from flask import current_app
 import requests
-
-ctm_url = config.settings['CTM_URL']
-ctm_auth = (config.settings['CTM_USER'], config.settings['CTM_PASS'])
-
 
 @celery.task(bind=True)
 def retrieve_new_accounts(self):
     """Check CTM's accounts and compare the list to existing accounts in PhoneBooth's
     datastore."""
+
+    ctm_url = current_app.config['CTM_URL']
+    ctm_auth = (current_app.config['CTM_USER'], current_app.config['CTM_PASS'])
 
     # Query CTM and find out how many pages we are dealing with
     r = requests.get(ctm_url + '/accounts.json', params={'page': 1}, auth=ctm_auth)

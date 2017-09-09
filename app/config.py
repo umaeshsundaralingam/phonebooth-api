@@ -14,12 +14,15 @@ except KeyError:
     load_dotenv(find_dotenv('.env'))
 
 # Grab global variables and add them to a ``settings`` dictionary to pass on
-# to eve; only grabs pre-pended variables starting with "APP_"
+# to eve; only grab variables pre-pended with "EVE_" or "APP_".
 settings = dict()
+extra_settings = dict()
 
 for key, value in os.environ.items():
-    if key[:4] == 'APP_':
+    if key[:4] == 'EVE_':
         settings[key[4:]] = value
+    elif key[:4] == 'APP_':
+        extra_settings[key[4:]] = value
 
 # Eve takes a list of domains for Cross-Origin Resource Sharing.
 # We convert the variable value to a list for good measure, in case we need more
