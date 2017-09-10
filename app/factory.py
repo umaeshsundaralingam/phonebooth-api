@@ -100,3 +100,4 @@ def create_app(config=None, environment=None):
     app.register_blueprint(views.account_tasks.task, url_prefix='/tasks')
 
     return app
+

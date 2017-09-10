@@ -1,12 +1,13 @@
 from app import celery
 from flask import current_app
+from eve.methods.post import post_internal
 import requests
 
 @celery.task(bind=True)
 def retrieve_new_accounts(self):
     """Check CTM's accounts and compare the list to existing accounts in PhoneBooth's
     datastore."""
-
+    
     ctm_url = current_app.config['CTM_URL']
     ctm_auth = (current_app.config['CTM_USER'], current_app.config['CTM_PASS'])
 
@@ -36,12 +37,23 @@ def retrieve_new_accounts(self):
     # Compare the lists via list comprehension
     filtered_ids = [id for id in ctm_account_ids if id not in existing_account_ids]
 
-    # Query CTM for every missing account's profile
+    # Query CTM for every missing account's profile and import them
     missing_ctm_accounts = []
-    for id in filtered_ids:
-        r = requests.get(ctm_url + '/accounts/' + str(id) + '.json', auth=ctm_auth)
-        missing_ctm_accounts.append(r.json())
-        del id, r
+    
+    try:
+        for id in filtered_ids:
+            r = requests.get(ctm_url + '/accounts/' + str(id) + '.json', auth=ctm_auth)
+            with current_app.test_request_context():
+                post_internal('accounts', r.json())
+            missing_ctm_accounts.append(id)
+            del id, r
+    except:
+        raise
+    
+    if len(missing_ctm_accounts):
+        n = len(missing_ctm_accounts)
+        a = str(missing_ctm_accounts)
+        return "{} accounts imported. {}".format(n, a)
+    else:
+        return "No new accounts to import."
 
-    # Finally, import the accounts
-    current_app.data.insert('accounts', missing_ctm_accounts)
