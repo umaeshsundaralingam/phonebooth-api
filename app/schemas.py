@@ -71,7 +71,8 @@ account = {
         'allowed': ['agency_admin', 'admin', 'report_manager', 'call_manager', 'agent']
     },
     'website': {
-        'type': 'string'
+        'type': 'string',
+        'nullable': True
     }
 }
 
