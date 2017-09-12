@@ -35,11 +35,11 @@ account = {
     'balance': {
         'type': 'dict'
     },
-    'created': {
-        'type': 'string',
+    'ctm_created': {
+        'type': 'datetime',
         'required': True
     },
-    'id': {
+    'ctm_id': {
         'type': 'integer',
         'required': True,
         'unique': True
@@ -84,7 +84,6 @@ call = {
         'type': 'integer'
     },
     'account_id': {
-        'type': 'objectid',
         'required': True
     }
 }

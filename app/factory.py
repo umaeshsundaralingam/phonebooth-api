@@ -56,33 +56,31 @@ def create_app(config=None, environment=None):
             return self.check_auth(token, allowed_roles, resource, method)
 
 
-    def reference_call_to_account_callback(request):
-        """Replace call data payload ``account_id`` with the correct ObjectId
-        reference to an account in PhoneBooth's datastore. Save the original ``id``
-        and ``account_id`` as ``ctm_id``, and ``ctm_account_id`` respectively,
-        in case there is a need to reference it back in CTM.
-        """
+    def prepare_documents_for_import_callback(resource, request):
         payload = request.get_json()
-        accounts = app.data.driver.db['accounts']
-        lookup = {'ctm_id': payload['account_id']}
-        account = accounts.find_one(lookup)
+        documents = [[payload], payload][type(payload) == list]
+        for document in documents.copy():
+            try:
+                if document['created']:
+                    from dateutil.parser import parse
+                    document['ctm_created'] = parse(document['created'])
+                    del document['created']
 
-        payload['ctm_id'] = payload['id']
-        payload['ctm_account_id'] = payload['account_id']
-        del payload['id'], payload['account_id']
-        payload['account_id'] = account['_id']
+                if document['account_id']:
+                    accounts = app.data.driver.db['accounts']
+                    lookup = {'ctm_id': document['account_id']}
+                    account = accounts.find_one(lookup)
+                    document['ctm_account_id'] = document['account_id']
+                    document['account_id'] = account['_id']
+            except KeyError:
+                pass
+            finally:
+                document['ctm_id'] = document['id']
+                del document['id']
 
-
-    def prepare_documents_for_import_callback(documents):
-        import dateutil.parser
-        for document in documents:
-            document['ctm_id'] = document['id']
-            document['ctm_created'] = dateutil.parser.parse(document['created'])
-            del document['id'], document['created']
-
-            for key in document.copy():
-                if "url" in key:
-                    del document[key]
+                for key in document.copy():
+                    if "url" in key:
+                        del document[key]
 
 
     app = Eve(
@@ -91,8 +89,7 @@ def create_app(config=None, environment=None):
     )
     
     ResourceOwnerPasswordCredentials(app)
-    app.on_pre_POST_calls += reference_call_to_account_callback
-    app.on_insert_accounts += prepare_documents_for_import_callback
+    app.on_pre_POST += prepare_documents_for_import_callback
     
     app.config.update(config.extra_settings)
     init_celery(app, celery)

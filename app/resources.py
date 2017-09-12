@@ -16,8 +16,7 @@ users = {
 
 accounts = {
     'allowed_roles': ['enduser', 'manager', 'admin'],
-    'schema': schemas.account,
-    'allow_unknown': True
+    'schema': schemas.account
 }
 
 calls = {
