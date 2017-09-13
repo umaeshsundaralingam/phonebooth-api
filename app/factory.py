@@ -1,4 +1,5 @@
 import bcrypt
+import dateutil.parser
 from eve import Eve
 from eve.auth import BasicAuth
 from flask import request
@@ -60,27 +61,28 @@ def create_app(config=None, environment=None):
         payload = request.get_json()
         documents = [[payload], payload][type(payload) == list]
         for document in documents.copy():
-            try:
-                if document['created']:
-                    from dateutil.parser import parse
-                    document['ctm_created'] = parse(document['created'])
-                    del document['created']
+            date_fields = ['created', 'called_at', 'billed_at', 'started_at']
+            for key in date_fields:
+                if key in document:
+                    if key == 'created':
+                        document['ctm_created'] = dateutil.parser.parse(document['created'])
+                        del document['created']
+                    else:
+                        document[key] = dateutil.parser.parse(document[key])
 
-                if document['account_id']:
-                    accounts = app.data.driver.db['accounts']
-                    lookup = {'ctm_id': document['account_id']}
-                    account = accounts.find_one(lookup)
-                    document['ctm_account_id'] = document['account_id']
-                    document['account_id'] = account['_id']
-            except KeyError:
-                pass
-            finally:
-                document['ctm_id'] = document['id']
-                del document['id']
+            if 'account_id' in document:
+                accounts = app.data.driver.db['accounts']
+                lookup = {'ctm_id': document['account_id']}
+                account = accounts.find_one(lookup)
+                document['ctm_account_id'] = document['account_id']
+                document['account_id'] = account['_id']
 
-                for key in document.copy():
-                    if "url" in key:
-                        del document[key]
+            document['ctm_id'] = document['id']
+            del document['id']
+
+            for key in document.copy():
+                if "url" in key:
+                    del document[key]
 
 
     app = Eve(
