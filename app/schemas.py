@@ -35,13 +35,14 @@ account = {
     'balance': {
         'type': 'dict'
     },
-    'created': {
-        'type': 'date',
+    'ctm_created': {
+        'type': 'datetime',
         'required': True
     },
     'ctm_id': {
         'type': 'integer',
-        'required': True
+        'required': True,
+        'unique': True
     },
     'invoiced': {
         'type': 'boolean'
@@ -70,7 +71,8 @@ account = {
         'allowed': ['agency_admin', 'admin', 'report_manager', 'call_manager', 'agent']
     },
     'website': {
-        'type': 'string'
+        'type': 'string',
+        'nullable': True
     }
 }
 
@@ -82,7 +84,7 @@ call = {
         'type': 'integer'
     },
     'account_id': {
-        'type': 'objectid',
         'required': True
     }
 }
+

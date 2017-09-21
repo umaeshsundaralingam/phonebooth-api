@@ -7,20 +7,16 @@ users = {
     'cache_control': '',
     'cache_expires': 0,
 
-    # Only allow managers and admins.
+    # Only allow managers and admins to access/administer users
     'allowed_roles': ['manager', 'admin'],
 
-    # Finally, let's add the schema definition for this endpoint.
+    # Add the schema definition for this endpoint.
     'schema': schemas.user
 }
 
 accounts = {
-    # Only allow human users
     'allowed_roles': ['enduser', 'manager', 'admin'],
-
-    # Add the schema definition for this endpoint.
-    'schema': schemas.account,
-    'allow_unknown': True
+    'schema': schemas.account
 }
 
 calls = {
@@ -28,3 +24,4 @@ calls = {
     'schema': schemas.call,
     'allow_unknown': True
 }
+

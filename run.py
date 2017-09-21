@@ -5,3 +5,4 @@ from app.utils.tasker import init_celery
 
 app = create_app(config=config)
 init_celery(app, celery)
+

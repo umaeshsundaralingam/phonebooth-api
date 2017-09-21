@@ -12,7 +12,7 @@ def retrieve_new_accounts_trigger():
     return jsonify({'task_id': task.id})
 
 
-@task.route('/new_accounts/<task_id>')
+@task.route('/new_accounts/<task_id>', methods=['GET'])
 @oauth.require_oauth()
 def retrieve_new_accounts_status(task_id):
     task = retrieve_new_accounts.AsyncResult(task_id)
@@ -21,3 +21,4 @@ def retrieve_new_accounts_status(task_id):
         'info': str(task.info)
     }
     return jsonify(response)
+
