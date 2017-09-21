@@ -29,6 +29,8 @@ calls = {
 ctm_calls = {
     'allowed_roles': ['api'],
     'authentication': RolesAuth,
+    'resource_methods': ['POST'],
+    'item_methods': [],
     'datasource': {
         'source': 'calls'
     },

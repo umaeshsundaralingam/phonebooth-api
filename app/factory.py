@@ -1,4 +1,3 @@
-import bcrypt
 from eve import Eve
 from eve.auth import BasicAuth
 from flask import request
