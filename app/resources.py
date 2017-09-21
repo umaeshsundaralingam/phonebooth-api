@@ -1,4 +1,5 @@
 from app import schemas
+from app.utils.auth import RolesAuth
 
 # Resource definitions
 users = {
@@ -25,3 +26,12 @@ calls = {
     'allow_unknown': True
 }
 
+ctm_calls = {
+    'allowed_roles': ['api'],
+    'authentication': RolesAuth,
+    'datasource': {
+        'source': 'calls'
+    },
+    'schema': schemas.call,
+    'allow_unknown': True
+}
