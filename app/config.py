@@ -45,7 +45,8 @@ except KeyError:
 settings['DOMAIN'] = {
     'users': resources.users,
     'accounts': resources.accounts,
-    'calls': resources.calls
+    'calls': resources.calls,
+    'ctm_calls': resources.ctm_calls
 }
 
 # Enable reads, inserts, and deletions of resources/collections
