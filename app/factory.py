@@ -1,5 +1,4 @@
 import bcrypt
-import dateutil.parser
 from eve import Eve
 from eve.auth import BasicAuth
 from flask import request
@@ -8,22 +7,10 @@ from redis import StrictRedis
 from app import celery
 from app import config
 from app.utils.tasker import init_celery
+from app.utils.events import prepare_documents_for_import_callback
 import views.account_tasks
 
 def create_app(config=None, environment=None):
-
-    class RolesAuth(BasicAuth):
-        def check_auth(self, username, password, allowed_roles, resource, method):
-            # use Eve's own db driver; no additional connections/resources are used
-            users = app.data.driver.db['users']
-            lookup = {'username': username }
-            if allowed_roles:
-                # only retrieve a user if his roles match ``allowed_roles``
-                lookup['roles'] = {'$in': allowed_roles}
-            user = users.find_one(lookup)
-            return user and \
-                bcrypt.hashpw(password.encode('utf-8'), user['password'].encode('utf-8')) == user['password'].encode('utf-8')
-
 
     class BearerAuth(BasicAuth):
         """ Overrides Eve's built-in basic authorization scheme and uses Redis to
@@ -55,35 +42,6 @@ def create_app(config=None, environment=None):
             except:
                 token = None
             return self.check_auth(token, allowed_roles, resource, method)
-
-
-    def prepare_documents_for_import_callback(resource, request):
-        payload = request.get_json()
-        documents = [[payload], payload][type(payload) == list]
-        for document in documents.copy():
-            date_fields = ['created', 'called_at', 'billed_at', 'started_at']
-            for key in date_fields:
-                if key in document:
-                    if key == 'created':
-                        document['ctm_created'] = dateutil.parser.parse(document['created'])
-                        del document['created']
-                    else:
-                        document[key] = dateutil.parser.parse(document[key])
-
-            if 'account_id' in document:
-                accounts = app.data.driver.db['accounts']
-                lookup = {'ctm_id': document['account_id']}
-                account = accounts.find_one(lookup)
-                document['ctm_account_id'] = document['account_id']
-                document['account_id'] = account['_id']
-
-            document['ctm_id'] = document['id']
-            del document['id']
-
-            for key in document.copy():
-                if "url" in key:
-                    del document[key]
-
 
     app = Eve(
         settings=config.settings,
