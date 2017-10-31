@@ -7,7 +7,7 @@ import requests
 def retrieve_new_accounts(self):
     """Check CTM's accounts and compare the list to existing accounts in PhoneBooth's
     datastore."""
-    
+
     ctm_url = current_app.config['CTM_URL']
     ctm_auth = (current_app.config['CTM_USER'], current_app.config['CTM_PASS'])
 
@@ -39,7 +39,7 @@ def retrieve_new_accounts(self):
 
     # Query CTM for every missing account's profile and import them
     missing_ctm_accounts = []
-    
+
     try:
         for id in filtered_ids:
             r = requests.get(ctm_url + '/accounts/' + str(id) + '.json', auth=ctm_auth)
@@ -49,7 +49,7 @@ def retrieve_new_accounts(self):
             del id, r
     except:
         raise
-    
+
     if len(missing_ctm_accounts):
         n = len(missing_ctm_accounts)
         a = str(missing_ctm_accounts)
