@@ -1,6 +1,7 @@
 from app import schemas
 from app.utils.auth import RolesAuth
 
+
 # Resource definitions
 users = {
     # We disable endpoint caching as we don't want client apps to

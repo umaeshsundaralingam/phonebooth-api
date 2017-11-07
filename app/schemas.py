@@ -84,6 +84,11 @@ call = {
         'type': 'integer'
     },
     'account_id': {
+        'type': 'objectid',
+        'data_relation': {
+            'resource': 'accounts',
+            'field': '_id'
+        },
         'required': True
     }
 }

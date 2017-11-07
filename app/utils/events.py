@@ -1,6 +1,7 @@
 import dateutil.parser
 from flask import request, current_app
 
+
 def prepare_documents_for_import_callback(resource, request):
     payload = request.get_json()
     documents = [[payload], payload][type(payload) == list]

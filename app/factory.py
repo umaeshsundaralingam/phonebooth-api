@@ -48,7 +48,7 @@ def create_app(config=None, environment=None):
 
     ResourceOwnerPasswordCredentials(app)
     app.on_pre_POST += prepare_documents_for_import_callback
-    
+
     app.config.update(config.extra_settings)
     init_celery(app, celery)
 
