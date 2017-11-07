@@ -1,13 +1,16 @@
 from app import celery
-from flask import current_app
+from app.utils.events import prepare_documents_for_import_callback
+from flask import request, current_app
 from eve.methods.post import post_internal
-import requests
+from eve.render import send_response
+import requests, json
+
 
 @celery.task(bind=True)
 def retrieve_new_accounts(self):
     """Check CTM's accounts and compare the list to existing accounts in PhoneBooth's
     datastore."""
-    
+
     ctm_url = current_app.config['CTM_URL']
     ctm_auth = (current_app.config['CTM_USER'], current_app.config['CTM_PASS'])
 
@@ -38,21 +41,22 @@ def retrieve_new_accounts(self):
     filtered_ids = [id for id in ctm_account_ids if id not in existing_account_ids]
 
     # Query CTM for every missing account's profile and import them
-    missing_ctm_accounts = []
-    
-    try:
-        for id in filtered_ids:
-            r = requests.get(ctm_url + '/accounts/' + str(id) + '.json', auth=ctm_auth)
-            with current_app.test_request_context():
-                post_internal('accounts', r.json())
-            missing_ctm_accounts.append(id)
-            del id, r
-    except:
-        raise
-    
-    if len(missing_ctm_accounts):
-        n = len(missing_ctm_accounts)
-        a = str(missing_ctm_accounts)
+    imported_ctm_accounts = []
+
+    for id in filtered_ids:
+        r = requests.get(ctm_url + '/accounts/' + str(id) + '.json', auth=ctm_auth, timeout=3)
+        payload = json.dumps(r.json())
+        with current_app.test_request_context(path='/accounts', method='POST', content_type='application/json', data=payload):
+            try:
+                prepare_documents_for_import_callback('accounts', request)
+                post_internal('accounts')
+                imported_ctm_accounts.append(id)
+            except:
+                raise
+
+    if len(imported_ctm_accounts):
+        n = len(imported_ctm_accounts)
+        a = str(imported_ctm_accounts)
         return "{} accounts imported. {}".format(n, a)
     else:
         return "No new accounts to import."

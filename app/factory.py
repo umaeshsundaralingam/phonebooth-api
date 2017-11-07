@@ -7,10 +7,9 @@ from app import celery
 from app import config
 from app.utils.tasker import init_celery
 from app.utils.events import prepare_documents_for_import_callback
-import views.account_tasks
+from app.views.tasks import task
 
 def create_app(config=None, environment=None):
-
     class BearerAuth(BasicAuth):
         """ Overrides Eve's built-in basic authorization scheme and uses Redis to
         validate bearer token
@@ -46,14 +45,14 @@ def create_app(config=None, environment=None):
         settings=config.settings,
         auth=BearerAuth
     )
-    
+
     ResourceOwnerPasswordCredentials(app)
     app.on_pre_POST += prepare_documents_for_import_callback
-    
+
     app.config.update(config.extra_settings)
     init_celery(app, celery)
 
-    app.register_blueprint(views.account_tasks.task, url_prefix='/tasks')
+    app.register_blueprint(task, url_prefix='/tasks')
 
     return app
 
