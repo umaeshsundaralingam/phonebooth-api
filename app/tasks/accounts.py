@@ -7,7 +7,7 @@ import requests, json
 
 
 @celery.task(bind=True)
-def retrieve_new_accounts(self):
+def retrieve_new(self):
     """Check CTM's accounts and compare the list to existing accounts in PhoneBooth's
     datastore."""
 
