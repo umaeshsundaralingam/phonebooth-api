@@ -5,6 +5,10 @@ def init_celery(app, celery):
     config and then creates a subclass of the task that wraps the task execution
     in an application context.
     """
+    client = Client(app.config['SENTRY_DSN'])
+    register_logger_signal(client)
+    register_signal(client)
+
     celery.conf.update(app.config)
     TaskBase = celery.Task
     class ContextTask(TaskBase):
