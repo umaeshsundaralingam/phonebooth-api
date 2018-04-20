@@ -1,3 +1,7 @@
+from raven import Client
+from raven.contrib.celery import register_signal, register_logger_signal
+
+
 def init_celery(app, celery):
     """
     This function creates a new Celery object, configures it with the broker from
