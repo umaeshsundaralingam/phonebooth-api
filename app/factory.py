@@ -4,7 +4,6 @@ from flask import request
 from flask_sentinel import ResourceOwnerPasswordCredentials, oauth
 from redis import StrictRedis
 from app import celery
-from app import config
 from app.utils.tasker import init_celery
 from app.utils.events import prepare_documents_for_import_callback
 from app.views.tasks import task
