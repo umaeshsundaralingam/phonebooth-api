@@ -1,6 +1,7 @@
 from eve import Eve
 from eve.auth import BasicAuth
 from flask import request
+from flask_cors import CORS
 from flask_sentinel import ResourceOwnerPasswordCredentials, oauth
 from redis import StrictRedis
 from app import celery
@@ -63,6 +64,8 @@ def create_app(config=None, environment=None):
     init_celery(app, celery)
     app.register_blueprint(task, url_prefix='/tasks')
 
+    CORS(app)
+    
     sentry = Sentry()
     sentry.init_app(app)
     return app
