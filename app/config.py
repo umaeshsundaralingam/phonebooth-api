@@ -33,6 +33,13 @@ try:
 except KeyError:
     pass
 
+
+try:
+    if settings['X_EXPOSE_HEADERS']:
+        settings['X_EXPOSE_HEADERS'] = settings['X_EXPOSE_HEADERS'].split(', ')
+except KeyError:
+    pass
+
 # Flask-Sentinel uses seconds as timedelta for the expiration time of tokens.
 # We need to convert the environment variable to an integer.
 try:
