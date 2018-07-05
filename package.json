@@ -1,0 +1,23 @@
+{
+  "name": "phonebooth-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umaeshsundaralingam/phonebooth-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umaeshsundaralingam/phonebooth-api/issues"
+  },
+  "homepage": "https://github.com/umaeshsundaralingam/phonebooth-api#readme",
+  "dependencies": {
+    "vue": "^2.5.16"
+  }
+}
